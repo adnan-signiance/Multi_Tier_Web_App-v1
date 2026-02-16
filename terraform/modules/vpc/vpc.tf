@@ -1,9 +1,9 @@
 resource "aws_vpc" "vpc-adnan" {
-  cidr_block       = "11.0.0.0/16"
+  cidr_block       = var.vpc_cidr
   instance_tenancy = "default"
 
   tags = {
-    Name = "vpc-adnan"
+    Name = "${var.project_name}-vpc-${var.environment}"
   }
 }
 
@@ -11,37 +11,37 @@ resource "aws_internet_gateway" "igw-adnan" {
   vpc_id = aws_vpc.vpc-adnan.id
 
   tags = {
-    Name = "igw-adnan"
+    Name = "${var.project_name}-igw-${var.environment}"
   }
 }
 
 resource "aws_subnet" "publicsubnet1-adnan" {
   vpc_id            = aws_vpc.vpc-adnan.id
-  cidr_block        = "11.0.1.0/26"
-  availability_zone = "us-east-1a"
+  cidr_block        = var.public_subnet_1_cidr
+  availability_zone = var.availability_zone_1
 
   tags = {
-    Name = "publicsubnet1-adnan"
+    Name = "${var.project_name}-public-subnet-1-${var.environment}"
   }
 }
 
 resource "aws_subnet" "publicsubnet2-adnan" {
   vpc_id            = aws_vpc.vpc-adnan.id
-  cidr_block        = "11.0.2.0/26"
-  availability_zone = "us-east-1b"
+  cidr_block        = var.public_subnet_2_cidr
+  availability_zone = var.availability_zone_2
 
   tags = {
-    Name = "publicsubnet2-adnan"
+    Name = "${var.project_name}-public-subnet-2-${var.environment}"
   }
 }
 
 resource "aws_subnet" "privatesubnet-adnan" {
   vpc_id            = aws_vpc.vpc-adnan.id
-  cidr_block        = "11.0.3.0/26"
-  availability_zone = "us-east-1a"
+  cidr_block        = var.private_subnet_cidr
+  availability_zone = var.availability_zone_1
 
   tags = {
-    Name = "privatesubnet-adnan"
+    Name = "${var.project_name}-private-subnet-${var.environment}"
   }
 }
 
@@ -51,10 +51,6 @@ resource "aws_route_table" "public-rt-adnan" {
   route {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.igw-adnan.id
-  }
-
-  tags = {
-    Name = "public-rt-adnan"
   }
 }
 
@@ -70,10 +66,6 @@ resource "aws_route_table_association" "public-rt-association2-adnan" {
 
 resource "aws_route_table" "private-rt-adnan" {
   vpc_id = aws_vpc.vpc-adnan.id
-
-  tags = {
-    Name = "private-rt-adnan"
-  }
 }
 
 resource "aws_route_table_association" "private-rt-association-adnan" {
@@ -105,10 +97,6 @@ resource "aws_security_group" "alb-sg-adnan" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
-  tags = {
-    Name = "alb-sg-adnan"
-  }
 }
 
 resource "aws_security_group" "ec2-sg-adnan" {
@@ -134,9 +122,5 @@ resource "aws_security_group" "ec2-sg-adnan" {
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  tags = {
-    Name = "ec2-sg-adnan"
   }
 }

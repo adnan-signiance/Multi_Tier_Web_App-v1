@@ -1,7 +1,7 @@
 resource "aws_cloudfront_distribution" "cloudfront-adnan" {
 
   origin {
-    domain_name = aws_lb.alb-adnan.dns_name
+    domain_name = var.alb_dns_name
     origin_id   = "alb-origin"
 
     custom_origin_config {
