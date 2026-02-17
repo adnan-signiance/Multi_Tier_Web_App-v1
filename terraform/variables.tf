@@ -8,6 +8,6 @@ variable "ami_id" {
   description = "AMI ID for EC2 instance per region"
   type        = map(string)
   default = {
-    us-east-1 = "ami-05e9f935686cfe637"
+    us-east-1 = "ami-01782085b05e1f94a"
   }
 }
