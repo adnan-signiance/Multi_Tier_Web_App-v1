@@ -62,3 +62,8 @@ variable "ecs_task_execution_role_arn" {
   description = "ARN of the ECS Task Execution Role — injected into taskdef.json at build time"
   type        = string
 }
+
+variable "secret_arn" {
+  description = "ARN of the Secrets Manager secret"
+  type        = string
+}

@@ -38,6 +38,11 @@ resource "aws_codebuild_project" "ecs-bluegreen" {
       name  = "TASK_EXECUTION_ROLE_ARN"
       value = var.ecs_task_execution_role_arn
     }
+
+    environment_variable {
+      name  = "SECRET_ARN"
+      value = var.secret_arn
+    }
   }
 
   source {

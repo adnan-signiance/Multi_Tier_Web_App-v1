@@ -118,6 +118,7 @@ module "cicd" {
   blue_target_group_name      = module.alb.blue_target_group_name
   green_target_group_name     = module.alb.green_target_group_name
   ecs_task_execution_role_arn = module.iam.ecs_task_execution_role_arn
+  secret_arn                  = module.secretsmanager.secret_arn
 }
 
 # -------------------------------------------------------

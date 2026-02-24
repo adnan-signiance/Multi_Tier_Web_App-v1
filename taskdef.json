@@ -21,11 +21,35 @@
                     "protocol": "tcp"
                 }
             ],
+            "environment": [
+                {
+                    "name": "PORT",
+                    "value": "5000"
+                }
+            ],
+            "secrets": [
+                {
+                    "name": "DB_HOST",
+                    "valueFrom": "<SECRET_ARN>:host::"
+                },
+                {
+                    "name": "DB_NAME",
+                    "valueFrom": "<SECRET_ARN>:dbname::"
+                },
+                {
+                    "name": "DB_USER",
+                    "valueFrom": "<SECRET_ARN>:username::"
+                },
+                {
+                    "name": "DB_PASSWORD",
+                    "valueFrom": "<SECRET_ARN>:password::"
+                }
+            ],
             "logConfiguration": {
                 "logDriver": "awslogs",
                 "options": {
                     "awslogs-group": "/ecs/app-task/server",
-                    "awslogs-region": "us-east-1",
+                    "awslogs-region": "<AWS_REGION>",
                     "awslogs-stream-prefix": "server"
                 }
             }
@@ -52,7 +76,7 @@
                 "logDriver": "awslogs",
                 "options": {
                     "awslogs-group": "/ecs/app-task/client",
-                    "awslogs-region": "us-east-1",
+                    "awslogs-region": "<AWS_REGION>",
                     "awslogs-stream-prefix": "client"
                 }
             }
