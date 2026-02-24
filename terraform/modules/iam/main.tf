@@ -282,12 +282,17 @@ resource "aws_iam_role_policy" "codepipeline_policy" {
         Resource = "*"
       },
 
-      # ECS (required for Blue-Green tracking)
+      # ECS — CodeDeployToECS provider registers the task definition itself
       {
         Effect = "Allow"
         Action = [
+          "ecs:RegisterTaskDefinition",
+          "ecs:DescribeTaskDefinition",
           "ecs:DescribeServices",
-          "ecs:DescribeTaskDefinition"
+          "ecs:CreateTaskSet",
+          "ecs:UpdateServicePrimaryTaskSet",
+          "ecs:DeleteTaskSet",
+          "ecs:UpdateService"
         ]
         Resource = "*"
       },
