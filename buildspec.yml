@@ -34,6 +34,8 @@ phases:
             -e "s|<EXECUTION_ROLE_ARN>|$TASK_EXECUTION_ROLE_ARN|g" \
             -e "s|<SECRET_ARN>|$SECRET_ARN|g" \
             -e "s|<AWS_REGION>|$AWS_REGION|g" \
+            -e "s|<DB_HOST>|$DB_HOST|g" \
+            -e "s|<DB_NAME>|$DB_NAME|g" \
             taskdef.json > taskdef_rendered.json && mv taskdef_rendered.json taskdef.json
 
       - echo "=== appspec.yaml ===" && cat appspec.yaml

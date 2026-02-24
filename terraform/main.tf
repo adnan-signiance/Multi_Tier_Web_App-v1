@@ -119,6 +119,8 @@ module "cicd" {
   green_target_group_name     = module.alb.green_target_group_name
   ecs_task_execution_role_arn = module.iam.ecs_task_execution_role_arn
   secret_arn                  = module.secretsmanager.secret_arn
+  db_host                     = module.rds.db_address
+  db_name                     = "my_app_db"
 }
 
 # -------------------------------------------------------

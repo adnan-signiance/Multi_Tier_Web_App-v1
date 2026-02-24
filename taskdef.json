@@ -25,17 +25,17 @@
                 {
                     "name": "PORT",
                     "value": "5000"
-                }
-            ],
-            "secrets": [
+                },
                 {
                     "name": "DB_HOST",
-                    "valueFrom": "<SECRET_ARN>:host::"
+                    "value": "<DB_HOST>"
                 },
                 {
                     "name": "DB_NAME",
-                    "valueFrom": "<SECRET_ARN>:dbname::"
-                },
+                    "value": "<DB_NAME>"
+                }
+            ],
+            "secrets": [
                 {
                     "name": "DB_USER",
                     "valueFrom": "<SECRET_ARN>:username::"

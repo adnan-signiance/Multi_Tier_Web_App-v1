@@ -67,3 +67,13 @@ variable "secret_arn" {
   description = "ARN of the Secrets Manager secret"
   type        = string
 }
+
+variable "db_host" {
+  description = "RDS database hostname — injected into taskdef.json at build time"
+  type        = string
+}
+
+variable "db_name" {
+  description = "RDS database name — injected into taskdef.json at build time"
+  type        = string
+}

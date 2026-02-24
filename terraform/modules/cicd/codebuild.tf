@@ -43,6 +43,16 @@ resource "aws_codebuild_project" "ecs-bluegreen" {
       name  = "SECRET_ARN"
       value = var.secret_arn
     }
+
+    environment_variable {
+      name  = "DB_HOST"
+      value = var.db_host
+    }
+
+    environment_variable {
+      name  = "DB_NAME"
+      value = var.db_name
+    }
   }
 
   source {
