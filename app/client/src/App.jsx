@@ -122,7 +122,7 @@ function App() {
           <div className="vertical-line-gradient"></div>
           
           <h1 className="hero-title">
-            Build your<br />
+            Create your<br />
             <span>Digital Empire.</span>
           </h1>
           <p className="hero-description">
