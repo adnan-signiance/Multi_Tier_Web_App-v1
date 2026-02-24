@@ -59,13 +59,17 @@ resource "aws_codepipeline" "ecs_pipeline" {
       name            = "Deploy"
       category        = "Deploy"
       owner           = "AWS"
-      provider        = "CodeDeploy"
+      provider        = "CodeDeployToECS"
       version         = "1"
       input_artifacts = ["build_output"]
 
       configuration = {
-        ApplicationName     = aws_codedeploy_app.ecs-bluegreen.name
-        DeploymentGroupName = aws_codedeploy_deployment_group.ecs-bluegreen.deployment_group_name
+        ApplicationName                = aws_codedeploy_app.ecs-bluegreen.name
+        DeploymentGroupName            = aws_codedeploy_deployment_group.ecs-bluegreen.deployment_group_name
+        AppSpecTemplateArtifact        = "build_output"
+        AppSpecTemplatePath            = "appspec.yaml"
+        TaskDefinitionTemplateArtifact = "build_output"
+        TaskDefinitionTemplatePath     = "taskdef.json"
       }
     }
   }
