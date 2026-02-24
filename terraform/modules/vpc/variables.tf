@@ -16,10 +16,16 @@ variable "public_subnet_2_cidr" {
   default     = "11.0.2.0/26"
 }
 
-variable "private_subnet_cidr" {
+variable "private_subnet_1_cidr" {
   description = "CIDR block for private subnet"
   type        = string
   default     = "11.0.3.0/26"
+}
+
+variable "private_subnet_2_cidr" {
+  description = "CIDR block for private subnet 2"
+  type        = string
+  default     = "11.0.4.0/26"
 }
 
 variable "availability_zone_1" {

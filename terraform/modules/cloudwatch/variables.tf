@@ -1,6 +1,12 @@
-variable "ec2_instance_id" {
-  description = "The EC2 instance ID to monitor"
+variable "ecs_cluster_name" {
+  description = "The ECS cluster name for CloudWatch alarms"
   type        = string
+}
+
+variable "ecs_service_name" {
+  description = "The ECS service name for CloudWatch alarms"
+  type        = string
+  default     = "backend-service"
 }
 
 variable "alb_arn_suffix" {
@@ -19,9 +25,15 @@ variable "sns_topic_arn" {
 }
 
 variable "cpu_alarm_threshold" {
-  description = "CPU utilization threshold percentage"
+  description = "ECS CPU utilization threshold percentage"
   type        = number
   default     = 60
+}
+
+variable "memory_alarm_threshold" {
+  description = "ECS memory utilization threshold percentage"
+  type        = number
+  default     = 80
 }
 
 variable "alb_response_time_threshold" {
@@ -41,4 +53,3 @@ variable "healthy_host_threshold" {
   type        = number
   default     = 1
 }
-

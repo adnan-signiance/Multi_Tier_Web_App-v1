@@ -1,0 +1,72 @@
+resource "aws_codestarconnections_connection" "github" {
+  name          = "github-ecs-connection"
+  provider_type = "GitHub"
+}
+
+resource "aws_codepipeline" "ecs_pipeline" {
+  name     = "ecs-bluegreen-pipeline"
+  role_arn = var.codepipeline_role_arn
+
+  artifact_store {
+    location = var.s3_bucket_name
+    type     = "S3"
+  }
+
+  # ---------------- SOURCE ----------------
+  stage {
+    name = "Source"
+
+    action {
+      name             = "GitHub_Source"
+      category         = "Source"
+      owner            = "AWS"
+      provider         = "CodeStarSourceConnection"
+      version          = "1"
+      output_artifacts = ["source_output"]
+
+      configuration = {
+        ConnectionArn    = aws_codestarconnections_connection.github.arn
+        FullRepositoryId = "adnan-signiance/Multi_tier_Web_App-v1"
+        BranchName       = "main"
+      }
+    }
+  }
+
+  # ---------------- BUILD ----------------
+  stage {
+    name = "Build"
+
+    action {
+      name             = "Build"
+      category         = "Build"
+      owner            = "AWS"
+      provider         = "CodeBuild"
+      version          = "1"
+      input_artifacts  = ["source_output"]
+      output_artifacts = ["build_output"]
+
+      configuration = {
+        ProjectName = aws_codebuild_project.ecs-bluegreen.name
+      }
+    }
+  }
+
+  # ---------------- DEPLOY (BLUE–GREEN) ----------------
+  stage {
+    name = "Deploy"
+
+    action {
+      name            = "Deploy"
+      category        = "Deploy"
+      owner           = "AWS"
+      provider        = "CodeDeploy"
+      version         = "1"
+      input_artifacts = ["build_output"]
+
+      configuration = {
+        ApplicationName     = aws_codedeploy_app.ecs-bluegreen.name
+        DeploymentGroupName = aws_codedeploy_deployment_group.ecs-bluegreen.deployment_group_name
+      }
+    }
+  }
+}

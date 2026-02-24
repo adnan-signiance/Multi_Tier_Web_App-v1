@@ -12,8 +12,3 @@ variable "alb_security_group_id" {
   description = "The security group ID for the ALB"
   type        = string
 }
-
-variable "ec2_instance_id" {
-  description = "The EC2 instance ID to attach to the target group"
-  type        = string
-}

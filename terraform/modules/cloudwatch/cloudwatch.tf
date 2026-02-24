@@ -1,15 +1,19 @@
-resource "aws_cloudwatch_metric_alarm" "cpu_alarm" {
-  alarm_name          = "ec2-cpu-high"
+# -------------------------------------------------------
+# ECS CPU Utilization Alarm (replaces EC2 CPU alarm)
+# -------------------------------------------------------
+resource "aws_cloudwatch_metric_alarm" "ecs_cpu_alarm" {
+  alarm_name          = "ecs-cpu-high"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = 2
   metric_name         = "CPUUtilization"
-  namespace           = "AWS/EC2"
+  namespace           = "AWS/ECS"
   period              = 60
   statistic           = "Average"
   threshold           = var.cpu_alarm_threshold
 
   dimensions = {
-    InstanceId = var.ec2_instance_id
+    ClusterName = var.ecs_cluster_name
+    ServiceName = var.ecs_service_name
   }
 
   alarm_actions = [var.sns_topic_arn]
@@ -17,6 +21,32 @@ resource "aws_cloudwatch_metric_alarm" "cpu_alarm" {
   insufficient_data_actions = []
 }
 
+# -------------------------------------------------------
+# ECS Memory Utilization Alarm
+# -------------------------------------------------------
+resource "aws_cloudwatch_metric_alarm" "ecs_memory_alarm" {
+  alarm_name          = "ecs-memory-high"
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  evaluation_periods  = 2
+  metric_name         = "MemoryUtilization"
+  namespace           = "AWS/ECS"
+  period              = 60
+  statistic           = "Average"
+  threshold           = var.memory_alarm_threshold
+
+  dimensions = {
+    ClusterName = var.ecs_cluster_name
+    ServiceName = var.ecs_service_name
+  }
+
+  alarm_actions = [var.sns_topic_arn]
+
+  insufficient_data_actions = []
+}
+
+# -------------------------------------------------------
+# ALB Response Time Alarm
+# -------------------------------------------------------
 resource "aws_cloudwatch_metric_alarm" "alb_response_time_high" {
   alarm_name          = "alb-high-response-time"
   comparison_operator = "GreaterThanThreshold"
@@ -34,6 +64,9 @@ resource "aws_cloudwatch_metric_alarm" "alb_response_time_high" {
   alarm_actions = [var.sns_topic_arn]
 }
 
+# -------------------------------------------------------
+# ALB Request Count Alarm
+# -------------------------------------------------------
 resource "aws_cloudwatch_metric_alarm" "alb_request_count_high" {
   alarm_name          = "alb-request-count-high"
   comparison_operator = "GreaterThanThreshold"
@@ -52,6 +85,9 @@ resource "aws_cloudwatch_metric_alarm" "alb_request_count_high" {
   alarm_actions = [var.sns_topic_arn]
 }
 
+# -------------------------------------------------------
+# ALB Unhealthy Host Count Alarm
+# -------------------------------------------------------
 resource "aws_cloudwatch_metric_alarm" "alb_unhealthy_hosts" {
   alarm_name          = "alb-unhealthy-host-count"
   comparison_operator = "LessThanThreshold"

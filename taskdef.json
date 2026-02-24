@@ -1,0 +1,61 @@
+{
+    "family": "app-task",
+    "networkMode": "awsvpc",
+    "requiresCompatibilities": [
+        "EC2"
+    ],
+    "cpu": "512",
+    "memory": "1024",
+    "executionRoleArn": "<EXECUTION_ROLE_ARN>",
+    "containerDefinitions": [
+        {
+            "name": "server",
+            "image": "<IMAGE1_NAME>",
+            "cpu": 512,
+            "memory": 512,
+            "essential": true,
+            "portMappings": [
+                {
+                    "containerPort": 5000,
+                    "hostPort": 5000,
+                    "protocol": "tcp"
+                }
+            ],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "/ecs/app-task/server",
+                    "awslogs-region": "us-east-1",
+                    "awslogs-stream-prefix": "server"
+                }
+            }
+        },
+        {
+            "name": "client",
+            "image": "<IMAGE2_NAME>",
+            "memory": 512,
+            "essential": true,
+            "portMappings": [
+                {
+                    "containerPort": 80,
+                    "hostPort": 80,
+                    "protocol": "tcp"
+                }
+            ],
+            "dependsOn": [
+                {
+                    "containerName": "server",
+                    "condition": "START"
+                }
+            ],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "/ecs/app-task/client",
+                    "awslogs-region": "us-east-1",
+                    "awslogs-stream-prefix": "client"
+                }
+            }
+        }
+    ]
+}

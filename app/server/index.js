@@ -27,17 +27,17 @@ const startServer = async () => {
         const connection = await db.getConnection();
         console.log('Database connected successfully');
         connection.release();
-        
+
         app.listen(port, () => {
             console.log(`Server running on port ${port}`);
         });
     } catch (err) {
         console.error('Database connection failed:', err.message);
-        
+
         // If database doesn't exist, try to create it
         if (err.code === 'ER_BAD_DB_ERROR') {
-             console.log('Database does not exist. Attempting to create...');
-             try {
+            console.log('Database does not exist. Attempting to create...');
+            try {
                 const mysql = require('mysql2/promise');
                 const tempConnection = await mysql.createConnection({
                     host: process.env.DB_HOST || 'localhost',
@@ -49,9 +49,9 @@ const startServer = async () => {
                 await tempConnection.end();
                 // Retry immediately
                 return startServer();
-             } catch (createErr) {
-                 console.error('Failed to create database:', createErr.message);
-             }
+            } catch (createErr) {
+                console.error('Failed to create database:', createErr.message);
+            }
         }
 
         console.log('Retrying in 5 seconds...');

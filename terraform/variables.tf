@@ -4,10 +4,14 @@ variable "region" {
   default     = "us-east-1"
 }
 
-variable "ami_id" {
-  description = "AMI ID for EC2 instance per region"
-  type        = map(string)
-  default = {
-    us-east-1 = "ami-01782085b05e1f94a"
-  }
+variable "db_username" {
+  description = "Master username for the RDS MySQL instance"
+  type        = string
+  default     = "admin"
+}
+
+variable "db_password" {
+  description = "Master password for the RDS MySQL instance — set via TF_VAR_db_password env var or terraform.tfvars"
+  type        = string
+  sensitive   = true
 }
