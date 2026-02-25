@@ -123,7 +123,7 @@ function App() {
           
           <h1 className="hero-title">
             Create your<br />
-            <span>Digital Empire.</span>
+            <span>Digital Enterprise.</span>
           </h1>
           <p className="hero-description">
             Join the platform that powers the next generation of web applications. Secure, scalable, and built for speed.
