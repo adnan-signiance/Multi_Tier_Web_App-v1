@@ -25,9 +25,11 @@ resource "aws_codepipeline" "ecs_pipeline" {
       output_artifacts = ["source_output"]
 
       configuration = {
-        ConnectionArn    = aws_codestarconnections_connection.github.arn
-        FullRepositoryId = "adnan-signiance/Multi_tier_Web_App-v1"
-        BranchName       = "main"
+        ConnectionArn        = aws_codestarconnections_connection.github.arn
+        FullRepositoryId     = "adnan-signiance/Multi_tier_Web_App-v1"
+        BranchName           = "main"
+        DetectChanges        = "true"
+        OutputArtifactFormat = "CODE_ZIP"
       }
     }
   }
