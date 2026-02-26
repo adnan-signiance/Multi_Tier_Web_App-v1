@@ -53,6 +53,7 @@ module "iam" {
 
   secret_arn       = module.secretsmanager.secret_arn
   s3_artifacts_arn = module.s3.bucket_arn
+  sns_topic_arn    = module.sns.sns_topic_arn
 }
 
 # -------------------------------------------------------

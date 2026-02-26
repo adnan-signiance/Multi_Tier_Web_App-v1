@@ -8,3 +8,7 @@ variable "s3_artifacts_arn" {
   type        = string
 }
 
+variable "sns_topic_arn" {
+  description = "ARN of the SNS topic — IAM module attaches its resource-based policy here"
+  type        = string
+}

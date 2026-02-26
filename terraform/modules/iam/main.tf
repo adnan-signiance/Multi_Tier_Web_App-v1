@@ -317,3 +317,51 @@ resource "aws_iam_role_policy" "codepipeline_policy" {
     ]
   })
 }
+
+# -------------------------------------------------------
+# SNS Topic Policy
+# Resource-based policy granting AWS service principals
+# permission to publish to the SNS topic.
+#   - codestar-notifications → pipeline event notifications
+#   - cloudwatch             → alarm notifications
+# The SourceAccount condition prevents confused-deputy attacks.
+# -------------------------------------------------------
+data "aws_caller_identity" "current" {}
+
+resource "aws_sns_topic_policy" "notifications_policy" {
+  arn = var.sns_topic_arn
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid    = "AllowCodeStarNotificationsPublish"
+        Effect = "Allow"
+        Principal = {
+          Service = "codestar-notifications.amazonaws.com"
+        }
+        Action   = "SNS:Publish"
+        Resource = var.sns_topic_arn
+        Condition = {
+          StringEquals = {
+            "aws:SourceAccount" = data.aws_caller_identity.current.account_id
+          }
+        }
+      },
+      {
+        Sid    = "AllowCloudWatchAlarmsPublish"
+        Effect = "Allow"
+        Principal = {
+          Service = "cloudwatch.amazonaws.com"
+        }
+        Action   = "SNS:Publish"
+        Resource = var.sns_topic_arn
+        Condition = {
+          StringEquals = {
+            "aws:SourceAccount" = data.aws_caller_identity.current.account_id
+          }
+        }
+      }
+    ]
+  })
+}
