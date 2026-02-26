@@ -87,4 +87,9 @@ resource "aws_lb_listener" "alb-listener-adnan" {
     User  = "Adnan"
     Usage = "Multi tier Web App"
   }
+
+  lifecycle {
+    ignore_changes = [default_action]
+  }
 }
+

@@ -258,10 +258,6 @@ resource "aws_ecs_service" "app" {
   depends_on = [aws_ecs_cluster_capacity_providers.attach]
 
   lifecycle {
-    # CodeDeploy owns these at runtime — Terraform must not revert them.
-    # task_definition: CodeDeploy registers new revisions on every deployment
-    # load_balancer:   CodeDeploy switches traffic between blue/green target groups
-    # desired_count:   CodeDeploy / auto-scaling adjusts count during deployments
     ignore_changes = [
       task_definition,
       load_balancer,
