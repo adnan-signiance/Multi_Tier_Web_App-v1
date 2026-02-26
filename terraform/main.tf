@@ -121,6 +121,7 @@ module "cicd" {
   secret_arn                  = module.secretsmanager.secret_arn
   db_host                     = module.rds.db_address
   db_name                     = "my_app_db"
+  sns_topic_arn               = module.sns.sns_topic_arn
 }
 
 # -------------------------------------------------------

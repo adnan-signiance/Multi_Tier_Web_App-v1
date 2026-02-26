@@ -77,3 +77,9 @@ variable "db_name" {
   description = "RDS database name — injected into taskdef.json at build time"
   type        = string
 }
+
+variable "sns_topic_arn" {
+  description = "ARN of the SNS topic for notifications"
+  type        = string
+}
+
